@@ -1,0 +1,25 @@
+import numpy as np
+from scipy.stats import ttest_ind, mannwhitneyu, shapiro, ttest_rel, wilcoxon
+
+# Données pour les deux conditions
+condition1 = [106, 85, 121, 107, 79, 69, 105, 82, 110, 107, 249, 108, 159, 116, 142, 176, 159, 104, 108, 137]
+condition2 = [58, 78, 100, 60, 136, 62, 67, 84, 71, 87, 128, 62, 53, 81, 51, 78, 40, 60, 50, 84]
+
+# Vérification de la normalité avec le test de Shapiro-Wilk
+stat1, p1 = shapiro(condition1)
+stat2, p2 = shapiro(condition2)
+
+print(f"Test de normalité pour la Condition 1 : p-value = {p1}")
+print(f"Test de normalité pour la Condition 2 : p-value = {p2}")
+
+# Choisir le test basé sur la normalité
+if p1 > 0.05 and p2 > 0.05:
+    # Les deux distributions sont normales, donc on utilise un test t
+    print("\nLes deux conditions suivent une distribution normale. On effectue un test t pour échantillons indépendants.")
+    stat, p_value = ttest_ind(condition1, condition2)
+    print(f"Test t de Student : p-value = {p_value}")
+else:
+    # Au moins une condition n'est pas normale, donc on utilise un test de Mann-Whitney
+    print("\nAu moins une condition n'est pas normale. On effectue un test de Mann-Whitney.")
+    stat, p_value = mannwhitneyu(condition1, condition2, alternative='two-sided')
+    print(f"Test de Mann-Whitney : p-value = {p_value}")
