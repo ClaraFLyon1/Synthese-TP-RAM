@@ -1,0 +1,21 @@
+import numpy as np
+from scipy.stats import shapiro, ttest_ind, mannwhitneyu
+
+# Données (sans les % car elles sont numériques)
+groupe1 = [98, 99, 98, 96, 99, 99, 99, 94, 99, 100, 100, 98, 98, 99, 98, 98, 99, 97, 99, 100]
+groupe2 = [94, 92, 87, 83, 86, 90, 90, 88, 90, 87, 84, 77, 91, 88, 98, 94, 88, 85, 93, 82]
+
+# Étape 1 : test de normalité
+p1 = shapiro(groupe1).pvalue
+p2 = shapiro(groupe2).pvalue
+
+print(f"Normalité Groupe 1 (p = {p1:.4f})")
+print(f"Normalité Groupe 2 (p = {p2:.4f})")
+
+# Étape 2 : choix du test
+if p1 > 0.05 and p2 > 0.05:
+    print("\nDonnées normales dans les deux groupes : test t")
+    stat, pval = ttest_ind(groupe1, groupe2)
+else:
+    print("\nDonnées non normales : test de Mann-Whitney")
+    stat, pval = mannwhitneyu(groupe1, groupe2, alternative='two-sided')
