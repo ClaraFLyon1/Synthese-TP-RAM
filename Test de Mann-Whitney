@@ -1,0 +1,19 @@
+from scipy.stats import mannwhitneyu
+
+# Données
+groupe1 = [98, 99, 98, 96, 99, 99, 99, 94, 99, 100, 100, 98, 98, 99, 98, 98, 99, 97, 99, 100]
+groupe2 = [94, 92, 87, 83, 86, 90, 90, 88, 90, 87, 84, 77, 91, 88, 98, 94, 88, 85, 93, 82]
+
+# Effectuer le test de Mann-Whitney
+stat, p_value = mannwhitneyu(groupe1, groupe2, alternative='two-sided')
+
+# Afficher les résultats
+print(f"Statistique U : {stat}")
+print(f"Valeur p : {p_value}")
+
+# Interprétation
+alpha = 0.05
+if p_value < alpha:
+    print("Les distributions des deux groupes sont significativement différentes (rejet de l'hypothèse nulle).")
+else:
+    print("Il n'y a pas de différence significative entre les distributions des deux groupes (hypothèse nulle non rejetée).")
